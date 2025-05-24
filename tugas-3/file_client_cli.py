@@ -2,6 +2,7 @@ import socket
 import json
 import base64
 import logging
+import os
 
 server_address=('0.0.0.0',7777)
 
@@ -37,7 +38,7 @@ def send_command(command_str=""):
 
 
 def remote_list():
-    command_str=f"LIST"
+    command_str=f"LIST" + "\r\n\r\n"
     hasil = send_command(command_str)
     if (hasil['status']=='OK'):
         print("daftar file : ")
@@ -49,7 +50,7 @@ def remote_list():
         return False
 
 def remote_get(filename=""):
-    command_str=f"GET {filename}"
+    command_str=f"GET {filename}" + "\r\n\r\n"
     hasil = send_command(command_str)
     if (hasil['status']=='OK'):
         #proses file dalam bentuk base64 ke bentuk bytes
@@ -76,7 +77,7 @@ def remote_upload(filename=""):
         return False 
 
 def remote_delete(filename=""):
-    command_str=f"DELETE {filename}"
+    command_str=f"DELETE {filename}" + "\r\n\r\n"
     hasil = send_command(command_str)
     if hasil['status']=='OK':
         print("File berhasil dihapus")

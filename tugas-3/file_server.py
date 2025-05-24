@@ -17,17 +17,23 @@ class ProcessTheClient(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        while True:
-            data = self.connection.recv(32)
-            if data:
-                d = data.decode()
-                hasil = fp.proses_string(d)
-                hasil=hasil+"\r\n\r\n"
-                self.connection.sendall(hasil.encode())
-            else:
-                break
-        self.connection.close()
+        try:
+            buffer = ""
+            while "\r\n\r\n" not in buffer:
+                chunk = self.connection.recv(32).decode()
+                if not chunk:
+                    break
+                buffer += chunk
 
+            buffer = buffer.strip()
+
+            hasil = fp.proses_string(buffer) + "\r\n\r\n"
+            self.connection.sendall(hasil.encode())
+
+        except Exception as e:
+            logging.warning(f"Error di handler: {e}")
+        finally:
+            self.connection.close()
 
 class Server(threading.Thread):
     def __init__(self,ipaddress='0.0.0.0',port=8889):
@@ -57,4 +63,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
