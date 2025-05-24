@@ -65,7 +65,8 @@ def remote_get(filename=""):
         return False
 
 def remote_upload(filename=""):
-    file = open(filename,'rb')
+    file_path = os.path.basename(filename)
+    file = open(file_path,'rb')
     isi_file = base64.b64encode(file.read()).decode()
     command_str=f"UPLOAD {filename} " + isi_file + "\r\n\r\n"
     hasil = send_command(command_str)
