@@ -4,8 +4,6 @@ import base64
 import logging
 import os
 
-server_address=('0.0.0.0',7777)
-
 def send_command(command_str=""):
     global server_address
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -65,8 +63,7 @@ def remote_get(filename=""):
         return False
 
 def remote_upload(filename=""):
-    file_path = os.path.basename(filename)
-    file = open(file_path,'rb')
+    file = open(filename,'rb')
     isi_file = base64.b64encode(file.read()).decode()
     command_str=f"UPLOAD {filename} " + isi_file + "\r\n\r\n"
     hasil = send_command(command_str)
@@ -87,8 +84,10 @@ def remote_delete(filename=""):
         print("Gagal")
         return False
 
+
 if __name__=='__main__':
     server_address=('172.16.16.101',6666)
+    os.chdir('files/')
     remote_list()
     remote_get('donalbebek.jpg')
     remote_upload('donalbebek.jpg')
