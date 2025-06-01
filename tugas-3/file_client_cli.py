@@ -89,6 +89,6 @@ if __name__=='__main__':
     server_address=('172.16.16.101',6666)
     os.chdir('files/')
     remote_list()
-    remote_get('donalbebek.jpg')
     remote_upload('donalbebek.jpg')
+    remote_get('donalbebek.jpg')
     remote_delete('donalbebek.jpg')
