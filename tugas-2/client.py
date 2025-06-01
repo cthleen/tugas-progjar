@@ -3,7 +3,7 @@ import socket
 import sys
 
 clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_addr = ('localhost', 45000)
+server_addr = ('172.18.0.3', 45000)
 clientsocket.connect(server_addr)
 
 try:
